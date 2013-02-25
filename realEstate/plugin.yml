@@ -1,0 +1,6 @@
+name: RealEstate
+main: pro.homiecraft.realEstate
+version: 1.0
+author: GudfareN
+website: homiecraft.pro
+depend: [Vault]
