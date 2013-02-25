@@ -36,7 +36,8 @@ public class realEstate extends JavaPlugin {
 		setupPermissions();
 		setupEconomy();
 		
-		testGetdata();
+		makingDbready();
+		//testGetdata();
 	}
 	
 	public void loadConfiguration() {
@@ -50,6 +51,7 @@ public class realEstate extends JavaPlugin {
 	}
 	
 	public void setupMysql(){
+		log.info("[RealEstate] Connection to MySql Database");
 		String host = this.getConfig().getString("RealEstate.mysql.host");
 		String db = this.getConfig().getString("RealEstate.mysql.db");
 		String user = this.getConfig().getString("RealEstate.mysql.user");
@@ -61,9 +63,25 @@ public class realEstate extends JavaPlugin {
 			
 			con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + db, user, pw);
 			st = con.createStatement();
-			
+			log.info("[RealEstate] MySql Database connected!");
 		}catch(Exception ex){
 			log.info("RealEstate mysql error: " + ex);
+		}
+	}
+	
+	public void makingDbready() {
+		String sql = "CREATE TABLE Estates(id INTEGER not NULL AUTO_INCREMENT,"+
+					"estate VARCHAR(255),"+
+					"price INTEGER,"+
+					"location TEXT,"+
+					"owner VARCHAR(120),"+
+					"agent VARCHAR(120),"+
+					"PRIMARY KEY (id))";
+		try {
+			st.execute(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			log.info("[RealEstate] failed to create tables.. Check MySql settings!");
 		}
 	}
 	
