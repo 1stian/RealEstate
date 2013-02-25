@@ -1,6 +1,6 @@
 RealEstate:
   mysql:
-    Use mysql: true
+    Use mysql: false
     settings:
       host: ip/hostname
       db: realEstate
