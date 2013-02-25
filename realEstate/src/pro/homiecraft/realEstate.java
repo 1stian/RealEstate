@@ -65,12 +65,12 @@ public class realEstate extends JavaPlugin {
 			st = con.createStatement();
 			log.info("[RealEstate] MySql Database connected!");
 		}catch(Exception ex){
-			log.info("RealEstate mysql error: " + ex);
+			log.info("[RealEstate] mysql error: " + ex);
 		}
 	}
 	
 	public void makingDbready() {
-		String sql = "CREATE TABLE Estates(id INTEGER not NULL AUTO_INCREMENT,"+
+		String sql = "CREATE TABLE IF NOT EXISTS Estates(id INTEGER not NULL AUTO_INCREMENT,"+
 					"estate VARCHAR(255),"+
 					"price INTEGER,"+
 					"location TEXT,"+

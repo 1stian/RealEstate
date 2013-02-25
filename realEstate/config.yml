@@ -1,7 +1,17 @@
 RealEstate:
   mysql:
-    host: ip/hostname
-    db: realEstate
-    user: user
-    pw: pw
-    port: 3306
+    Use mysql: true
+    settings:
+      host: ip/hostname
+      db: realEstate
+      user: user
+      pw: pw
+      port: 3306
+  Settings:
+    Selection:
+      Auto expand up by: 50
+      Auto expand down by: 10
+    Estate:
+      price if not given: 100
+    AdminPlot:
+      AdminPlot name: [AdminPlot]
