@@ -10,10 +10,10 @@ import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
-import com.sk89q.worldedit.regions.Region;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 
 public class SignListn implements Listener {
 	@EventHandler
@@ -51,15 +51,27 @@ public class SignListn implements Listener {
 							String price = event.getLine(2);
 							String name = event.getLine(3);
 							
-							if (sel instanceof CuboidSelection) {
+							if (sel instanceof CuboidSelection) {								
 								BlockVector min = sel.getNativeMinimumPoint().toBlockVector();
 								BlockVector max = sel.getNativeMaximumPoint().toBlockVector();
 								
+								double bcY = min.getY() + -10;
+								double bcX = min.getX();
+								double bcZ = min.getZ();
 								
-								String sMin = min.toString();
-								String sMax = max.toString();
+								double MbcY = max.getY() + 50;
+								double MbcX = max.getX();
+								double MbcZ = max.getZ();
 								
+								BlockVector fMin = new BlockVector(bcX, bcY, bcZ);
+								BlockVector fMax = new BlockVector(MbcX, MbcY, MbcZ);
 								
+								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(name, fMin, fMax);
+								
+								regionManager.addRegion(estateRegion);
+								
+								String sMin = fMin.toString();
+								String sMax = fMax.toString();
 								
 								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price);
 							}
