@@ -56,24 +56,33 @@ public class SignListn implements Listener {
 								BlockVector max = sel.getNativeMaximumPoint().toBlockVector();
 								
 								double bcY = min.getY() + -10;
+								double MbcY = max.getY() + 50;
+								
+								if (bcY == MbcY){
+									//nothing todo here :D
+								}else if(bcY < MbcY){
+									
+								}else if(bcY > MbcY){
+									
+								}
+								
 								double bcX = min.getX();
 								double bcZ = min.getZ();
 								
-								double MbcY = max.getY() + 50;
 								double MbcX = max.getX();
 								double MbcZ = max.getZ();
 								
 								BlockVector fMin = new BlockVector(bcX, bcY, bcZ);
 								BlockVector fMax = new BlockVector(MbcX, MbcY, MbcZ);
 								
-								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(name, fMin, fMax);
-								
-								regionManager.addRegion(estateRegion);
-								
 								String sMin = fMin.toString();
 								String sMax = fMax.toString();
 								
 								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price);
+								
+								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(name, fMin, fMax);
+								
+								regionManager.addRegion(estateRegion);
 							}
 						}
 					}
