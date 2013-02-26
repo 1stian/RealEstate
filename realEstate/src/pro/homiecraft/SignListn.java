@@ -10,16 +10,25 @@ import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
+import com.sk89q.worldedit.regions.Region;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 
 public class SignListn implements Listener {
 	@EventHandler
 	public void signCreate(SignChangeEvent event){
 		Player player = event.getPlayer();
+		String pName = player.getName();
 		Block block = event.getBlock();
 		
 		WorldEditPlugin worldEditPlugin = null;
 		worldEditPlugin = (WorldEditPlugin) realEstate.pluginST.getServer().getPluginManager().getPlugin("WorldEdit");
 		Selection sel = worldEditPlugin.getSelection(player);
+		
+		WorldGuardPlugin worldGuardPlugin = null;
+		worldGuardPlugin = (WorldGuardPlugin) realEstate.pluginST.getServer().getPluginManager().getPlugin("WorldGuard");
+		RegionManager regionManager = worldGuardPlugin.getRegionManager(player.getWorld());
 		
 		if (realEstate.perms.has(player, "estate.create")){
 			if (!(sel == null)){
@@ -36,6 +45,7 @@ public class SignListn implements Listener {
 							
 							event.setLine(0, "[Estate]");
 							event.setLine(1, "No Owner");
+							block.getState().update();
 											
 							String owner = event.getLine(1);
 							String price = event.getLine(2);
@@ -45,10 +55,14 @@ public class SignListn implements Listener {
 								BlockVector min = sel.getNativeMinimumPoint().toBlockVector();
 								BlockVector max = sel.getNativeMaximumPoint().toBlockVector();
 								
-								SaveEstate.estateSave(min, max, name, owner, player, price);
+								
+								String sMin = min.toString();
+								String sMax = max.toString();
+								
+								
+								
+								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price);
 							}
-						
-							block.getState().update();
 						}
 					}
 				}else{

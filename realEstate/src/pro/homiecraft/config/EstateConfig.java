@@ -32,14 +32,14 @@ public class EstateConfig {
             }
     }
    
-    public static FileConfiguration getEstateConfig(String spawn) {
+    public static FileConfiguration getEstateConfig(String Estate) {
             if (customConfig == null) {
-                    reloadEstateConfig(spawn);
+                    reloadEstateConfig(Estate);
             }
             return customConfig;
     }
    
-    public static void saveEstateConfig(String spawn) {
+    public static void saveEstateConfig(String Estate) {
             if (customConfig == null || customConfigFile == null) {
                     return;
             }
@@ -47,7 +47,7 @@ public class EstateConfig {
             try {
                     customConfig.save(customConfigFile);
             } catch (IOException e) {
-                    Logger.getLogger("Minecraft").severe("Could not save " + spawn);
+                    Logger.getLogger("Minecraft").severe("Could not save " + Estate);
             }
     }
 }

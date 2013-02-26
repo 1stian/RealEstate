@@ -1,6 +1,7 @@
 package pro.homiecraft;
 
 import java.util.logging.Logger;
+import java.io.IOException;
 import java.sql.*;
 
 import org.bukkit.plugin.PluginManager;
@@ -26,7 +27,7 @@ public class realEstate extends JavaPlugin {
 	}
 	
 	public void onEnable() {
-		setupMysql();
+		//setupMysql();
 		
 		PluginManager pm = getServer().getPluginManager();
 			pm.registerEvents(new SignListn(), this);
@@ -36,8 +37,10 @@ public class realEstate extends JavaPlugin {
 		setupPermissions();
 		setupEconomy();
 		
-		makingDbready();
+		//makingDbready();
 		//testGetdata();
+		
+		initMetrics();
 	}
 	
 	public void loadConfiguration() {
@@ -116,4 +119,15 @@ public class realEstate extends JavaPlugin {
         econ = rsp.getProvider();
         return econ != null;
     }
+	
+	public void initMetrics(){
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		    log.info("Metrics started");
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
+			log.info("Metrics RealEstate " + e);
+		}
+	}
 }
