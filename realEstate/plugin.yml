@@ -4,3 +4,7 @@ version: 1.0
 author: GudfareN
 website: homiecraft.pro
 depend: [Vault]
+
+commands:
+   estate:
+      description: Estate

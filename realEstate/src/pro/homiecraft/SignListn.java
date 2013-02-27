@@ -12,6 +12,8 @@ import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.databases.ProtectionDatabaseException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 
@@ -44,7 +46,11 @@ public class SignListn implements Listener {
 							player.sendMessage("[RealEstate] You have created an estate sign!! testy testy :)");
 							
 							event.setLine(0, "[Estate]");
-							event.setLine(1, "No Owner");
+							
+							if (!(event.getLine(1) == " [AdminPlot]")){
+								event.setLine(1, "No Owner");
+							}
+							
 							block.getState().update();
 											
 							String owner = event.getLine(1);
@@ -55,15 +61,21 @@ public class SignListn implements Listener {
 								BlockVector min = sel.getNativeMinimumPoint().toBlockVector();
 								BlockVector max = sel.getNativeMaximumPoint().toBlockVector();
 								
-								double bcY = min.getY() + -10;
-								double MbcY = max.getY() + 50;
+								double bcY = min.getY();
+								double MbcY = max.getY();
 								
+								double minbcY = 0;
+								double maxbcY = 0;
+						
 								if (bcY == MbcY){
-									//nothing todo here :D
+									minbcY = bcY + -10;
+									maxbcY = MbcY + 50;
 								}else if(bcY < MbcY){
-									
+									minbcY = bcY + -10;
+									maxbcY = MbcY + 50;
 								}else if(bcY > MbcY){
-									
+									maxbcY = MbcY + -10;
+									minbcY = bcY + 50;
 								}
 								
 								double bcX = min.getX();
@@ -72,8 +84,8 @@ public class SignListn implements Listener {
 								double MbcX = max.getX();
 								double MbcZ = max.getZ();
 								
-								BlockVector fMin = new BlockVector(bcX, bcY, bcZ);
-								BlockVector fMax = new BlockVector(MbcX, MbcY, MbcZ);
+								BlockVector fMin = new BlockVector(bcX, minbcY, bcZ);
+								BlockVector fMax = new BlockVector(MbcX, maxbcY, MbcZ);
 								
 								String sMin = fMin.toString();
 								String sMax = fMax.toString();
@@ -81,8 +93,18 @@ public class SignListn implements Listener {
 								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price);
 								
 								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(name, fMin, fMax);
-								
 								regionManager.addRegion(estateRegion);
+								
+								DefaultDomain estateOwner = new DefaultDomain();
+								estateOwner.addPlayer(player.getName());
+								
+								estateRegion.setOwners(estateOwner);
+								
+								try {
+									regionManager.save();
+								} catch (ProtectionDatabaseException e) {
+									// TODO Auto-generated catch block
+								}
 							}
 						}
 					}

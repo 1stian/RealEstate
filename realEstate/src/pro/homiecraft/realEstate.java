@@ -8,6 +8,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pro.homiecraft.commands.Commands;
+
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 
@@ -28,19 +30,23 @@ public class realEstate extends JavaPlugin {
 	
 	public void onEnable() {
 		//setupMysql();
+		//makingDbready();
+		//testGetdata();
 		
 		PluginManager pm = getServer().getPluginManager();
 			pm.registerEvents(new SignListn(), this);
 		
 		loadConfiguration();
 		realEstate.pluginST = this;
+		getCommands();
 		setupPermissions();
 		setupEconomy();
 		
-		//makingDbready();
-		//testGetdata();
-		
 		initMetrics();
+	}
+	
+	public void getCommands(){
+		this.getCommand("estate").setExecutor(new Commands());
 	}
 	
 	public void loadConfiguration() {
