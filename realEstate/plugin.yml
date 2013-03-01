@@ -8,3 +8,5 @@ depend: [Vault]
 commands:
    estate:
       description: Estate
+   es:
+      description: Estate

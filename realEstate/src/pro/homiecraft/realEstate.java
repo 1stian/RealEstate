@@ -8,7 +8,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pro.homiecraft.commands.Commands;
+import pro.homiecraft.commands.*;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -46,7 +46,8 @@ public class realEstate extends JavaPlugin {
 	}
 	
 	public void getCommands(){
-		this.getCommand("estate").setExecutor(new Commands());
+		this.getCommand("estate").setExecutor(new cEstate());
+		this.getCommand("es").setExecutor(new cEs());
 	}
 	
 	public void loadConfiguration() {

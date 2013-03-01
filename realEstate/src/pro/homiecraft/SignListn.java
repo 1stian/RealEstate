@@ -1,5 +1,7 @@
 package pro.homiecraft;
 
+import java.util.regex.Pattern;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,10 +39,11 @@ public class SignListn implements Listener {
 				String[] line = event.getLines();
 						
 				if (line[0].equalsIgnoreCase("[estate]")){
-					if (event.getLine(2) == ""){
+					String signLine2 = event.getLine(2);
+					if (!(Pattern.matches("[a-zA-Z]+", signLine2) == false)){
 						player.sendMessage("[RealEstate] please specify a price on the third line!");
 					}else{
-						if(event.getLine(3) == ""){
+						if(line[3].equalsIgnoreCase("")){
 							player.sendMessage("[RealEstate] please specify a name on the fourth line!");	
 						}else{
 							player.sendMessage("[RealEstate] You have created an estate sign!! testy testy :)");
