@@ -2,6 +2,7 @@ package pro.homiecraft;
 
 import java.util.regex.Pattern;
 
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -97,7 +98,9 @@ public class SignListn implements Listener {
 								double y = event.getBlock().getY();
 								double z = event.getBlock().getZ();
 								
-								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price, x, y, z);
+								World cWorld = event.getBlock().getWorld();
+								
+								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price, cWorld, x, y, z);
 								
 								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(name, fMin, fMax);
 								regionManager.addRegion(estateRegion);

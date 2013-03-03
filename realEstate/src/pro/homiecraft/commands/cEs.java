@@ -168,7 +168,10 @@ public class cEs implements CommandExecutor {
 							String pName = player.getName();
 							String[] estateInfo = getEstate.getEstateInfo(args[1]);
 							
-							if(pName == estateInfo[0] || pName == estateInfo[1]){
+							String getOwner = EstateConfig.getEstateConfig("estates").getString("Estate." + args[1] + ".owner");
+							String getAgent = EstateConfig.getEstateConfig("estates").getString("Estate." + args[1] + ".player");
+							
+							if(pName == getOwner || pName == getAgent){
 								BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + args[1] + ".max");
 								BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + args[1] + ".max");
 								
@@ -180,6 +183,7 @@ public class cEs implements CommandExecutor {
 								estateRegion.setOwners(addFriend);
 								
 								try {
+									sender.sendMessage("[RealEstate] You have added " + args[2] + "To your estate named: " + args[1]);
 									regionManager.save();
 								} catch (ProtectionDatabaseException e) {
 									// TODO Auto-generated catch block
@@ -202,9 +206,9 @@ public class cEs implements CommandExecutor {
 						double y = EstateConfig.getEstateConfig("estates").getDouble("Estate." + args[1] + ".y");
 						double z = EstateConfig.getEstateConfig("estates").getDouble("Estate." + args[1] + ".z");
 						
-						World cWorld = player.getWorld();
+						World scWorld = (World) EstateConfig.getEstateConfig("estates").get("Estate." + args[1] + ".world");
 						
-						Location estateLoc = new Location(cWorld, x,y,z);
+						Location estateLoc = new Location(scWorld, x,y,z);
 						
 						player.teleport(estateLoc);
 					}else{
