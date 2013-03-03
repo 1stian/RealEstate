@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import pro.homiecraft.realEstate;
 import pro.homiecraft.config.EstateConfig;
+import pro.homiecraft.getEstate;
 
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -157,6 +158,40 @@ public class cEs implements CommandExecutor {
 				}else{
 					sender.sendMessage("You don't have access to removeowner in plugin RealEstate!");
 					return true;
+				}
+			}
+			
+			if(args[0].equalsIgnoreCase("addfriend")){
+				if (realEstate.perms.has(sender, "estate.addfriend")){
+					if(!(args[1].equalsIgnoreCase(""))){
+						if(!(args[2].equalsIgnoreCase(""))){
+							String pName = player.getName();
+							String[] estateInfo = getEstate.getEstateInfo(args[1]);
+							
+							if(pName == estateInfo[0] || pName == estateInfo[1]){
+								BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + args[1] + ".max");
+								BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + args[1] + ".max");
+								
+								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(args[1], min, max);
+								
+								DefaultDomain addFriend = new DefaultDomain();
+								addFriend.addPlayer(args[2]);
+								
+								estateRegion.setOwners(addFriend);
+								
+								try {
+									regionManager.save();
+								} catch (ProtectionDatabaseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						}else{
+							sender.sendMessage("Usage: /es addfriend <estateName> <playerName>");
+						}
+					}else{
+						sender.sendMessage("Usage: /es addfriend <estateName> <playerName>");
+					}
 				}
 			}
 			

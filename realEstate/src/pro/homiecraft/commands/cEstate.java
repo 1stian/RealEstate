@@ -9,12 +9,10 @@ import pro.homiecraft.realEstate;
 public class cEstate implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (cmd.getName().equalsIgnoreCase("estate")){
-			if (args.length < 1){
-				sender.sendMessage("Plugin Name: " + realEstate.pluginST.getDescription().getName().toString());
-				sender.sendMessage("Version: " + realEstate.pluginST.getDescription().getVersion().toString());
-				sender.sendMessage("Author(s): " + realEstate.pluginST.getDescription().getAuthors().toString());
-				return true;
-			}
+			sender.sendMessage("Plugin Name: " + realEstate.pluginST.getDescription().getName().toString());
+			sender.sendMessage("Version: " + realEstate.pluginST.getDescription().getVersion().toString());
+			sender.sendMessage("Author(s): " + realEstate.pluginST.getDescription().getAuthors().toString());
+			return true;
 		}
 		return false;
 	}
