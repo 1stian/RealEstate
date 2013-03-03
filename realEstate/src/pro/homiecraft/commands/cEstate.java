@@ -13,6 +13,7 @@ public class cEstate implements CommandExecutor {
 				sender.sendMessage("Plugin Name: " + realEstate.pluginST.getDescription().getName().toString());
 				sender.sendMessage("Version: " + realEstate.pluginST.getDescription().getVersion().toString());
 				sender.sendMessage("Author(s): " + realEstate.pluginST.getDescription().getAuthors().toString());
+				return true;
 			}
 		}
 		return false;

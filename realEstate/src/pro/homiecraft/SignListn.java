@@ -50,7 +50,7 @@ public class SignListn implements Listener {
 							
 							event.setLine(0, "[Estate]");
 							
-							if (!(event.getLine(1) == " [AdminPlot]")){
+							if (!(event.getLine(1) == "[AdminPlot]")){
 								event.setLine(1, "No Owner");
 							}
 							
@@ -93,7 +93,11 @@ public class SignListn implements Listener {
 								String sMin = fMin.toString();
 								String sMax = fMax.toString();
 								
-								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price);
+								double x = event.getBlock().getX();
+								double y = event.getBlock().getY();
+								double z = event.getBlock().getZ();
+								
+								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price, x, y, z);
 								
 								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(name, fMin, fMax);
 								regionManager.addRegion(estateRegion);

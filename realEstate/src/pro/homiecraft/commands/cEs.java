@@ -1,5 +1,7 @@
 package pro.homiecraft.commands;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,132 +24,159 @@ public class cEs implements CommandExecutor {
 		worldGuardPlugin = (WorldGuardPlugin) realEstate.pluginST.getServer().getPluginManager().getPlugin("WorldGuard");
 		RegionManager regionManager = worldGuardPlugin.getRegionManager(player.getWorld());
 		
-		if(args[0].equalsIgnoreCase("addowner")){
-			if (realEstate.perms.has(sender, "estate.addowner")){
-				if (!(args[1].equalsIgnoreCase(""))){
-					String estateName = args[1];
-					String getOwner = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".owner");
-					if (getOwner == "No Owner"){
-						String getAgent = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".player");
-						String pName = player.getName();
-						if(pName == getAgent){
-							if (!(args[2].equalsIgnoreCase(""))){								
-								BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
-								BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
-								
-								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
-								
-								DefaultDomain estateOwner = new DefaultDomain();
-								estateOwner.addPlayer(args[2]);
-								
-								estateRegion.setOwners(estateOwner);
-								
-								try {
-									regionManager.save();
-								} catch (ProtectionDatabaseException e) {
-									// TODO Auto-generated catch block
+		if (cmd.getName().equalsIgnoreCase("es")){
+			if(args[0].equalsIgnoreCase("addowner")){
+				if (realEstate.perms.has(sender, "estate.addowner")){
+					if (!(args[1].equalsIgnoreCase(""))){
+						String estateName = args[1];
+						String getOwner = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".owner");
+						if (getOwner == "No Owner"){
+							String getAgent = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".player");
+							String pName = player.getName();
+							if(pName == getAgent){
+								if (!(args[2].equalsIgnoreCase(""))){								
+									BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
+									BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
+									
+									ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
+									
+									DefaultDomain estateOwner = new DefaultDomain();
+									estateOwner.addPlayer(args[2]);
+									
+									estateRegion.setOwners(estateOwner);
+									
+									try {
+										regionManager.save();
+									} catch (ProtectionDatabaseException e) {
+										player.sendMessage("Error: " + e);
+									}
+									return true;
+								}else{
+									sender.sendMessage("Usage: /estate addowner estateName playerName");
+									return true;
 								}
-							}else{
-								sender.sendMessage("Usage: /estate addowner estateName playerName");
+							}
+							
+						}else{
+							String pName = player.getName();
+							if(pName == getOwner){
+								if (!(args[2].equalsIgnoreCase(""))){								
+									BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
+									BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
+									
+									ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
+									
+									DefaultDomain estateOwner = new DefaultDomain();
+									estateOwner.addPlayer(args[2]);
+									
+									estateRegion.setOwners(estateOwner);
+									
+									try {
+										regionManager.save();
+									} catch (ProtectionDatabaseException e) {
+										player.sendMessage("Error: " + e);
+									}
+									return true;
+								}else{
+									sender.sendMessage("Usage: /estate addowner estateName playerName");
+									return true;
+								}
 							}
 						}
-						
 					}else{
-						String pName = player.getName();
-						if(pName == getOwner){
-							if (!(args[2].equalsIgnoreCase(""))){								
-								BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
-								BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
-								
-								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
-								
-								DefaultDomain estateOwner = new DefaultDomain();
-								estateOwner.addPlayer(args[2]);
-								
-								estateRegion.setOwners(estateOwner);
-								
-								try {
-									regionManager.save();
-								} catch (ProtectionDatabaseException e) {
-									// TODO Auto-generated catch block
-								}
-							}else{
-								sender.sendMessage("Usage: /estate addowner estateName playerName");
-							}
-						}
+						sender.sendMessage("Usage: /estate addowner estateName playerName");
+						return true;
 					}
 				}else{
-					sender.sendMessage("Usage: /estate addowner estateName playerName");
+					sender.sendMessage("You don't have access to addowner in plugin RealEstate!");
+					return true;
 				}
-			}else{
-				sender.sendMessage("You don't have access to addowner in plugin RealEstate!");
 			}
-		}else{
 			
-		}
-		
-		if(args[0].equalsIgnoreCase("removeowner")){
-			if (realEstate.perms.has(sender, "estate.removeowner")){
-				if (!(args[1].equalsIgnoreCase(""))){
-					String estateName = args[1];
-					String getOwner = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".owner");
-					if (getOwner == "No Owner"){
-						String getAgent = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".player");
-						String pName = player.getName();
-						if(pName == getAgent){
-							if (!(args[2].equalsIgnoreCase(""))){								
-								BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
-								BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
-								
-								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
-								
-								DefaultDomain estateOwner = new DefaultDomain();
-								estateOwner.removePlayer(args[2]);
-								
-								estateRegion.setOwners(estateOwner);
-								
-								try {
-									regionManager.save();
-								} catch (ProtectionDatabaseException e) {
-									// TODO Auto-generated catch block
+			if(args[0].equalsIgnoreCase("removeowner")){
+				if (realEstate.perms.has(sender, "estate.removeowner")){
+					if (!(args[1].equalsIgnoreCase(""))){
+						String estateName = args[1];
+						String getOwner = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".owner");
+						if (getOwner == "No Owner"){
+							String getAgent = EstateConfig.getEstateConfig("estates").getString("Estate." + estateName + ".player");
+							String pName = player.getName();
+							if(pName == getAgent){
+								if (!(args[2].equalsIgnoreCase(""))){								
+									BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
+									BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
+									
+									ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
+									
+									DefaultDomain estateOwner = new DefaultDomain();
+									estateOwner.removePlayer(args[2]);
+									
+									estateRegion.setOwners(estateOwner);
+									
+									try {
+										regionManager.save();
+									} catch (ProtectionDatabaseException e) {
+										player.sendMessage("Error: " + e);
+									}
+									return true;
+								}else{
+									sender.sendMessage("Usage: /estate removeowner estateName playerName");
 								}
-							}else{
-								sender.sendMessage("Usage: /estate removeowner estateName playerName");
+							}
+							
+						}else{
+							String pName = player.getName();
+							if(pName == getOwner){
+								if (!(args[2].equalsIgnoreCase(""))){								
+									BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
+									BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
+									
+									ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
+									
+									DefaultDomain estateOwner = new DefaultDomain();
+									estateOwner.removePlayer(args[2]);
+									
+									estateRegion.setOwners(estateOwner);
+									
+									try {
+										regionManager.save();
+									} catch (ProtectionDatabaseException e) {
+										player.sendMessage("Error: " + e);
+									}
+									return true;
+								}else{
+									sender.sendMessage("Usage: /estate removeowner estateName playerName");
+									return true;
+								}
 							}
 						}
-						
 					}else{
-						String pName = player.getName();
-						if(pName == getOwner){
-							if (!(args[2].equalsIgnoreCase(""))){								
-								BlockVector min = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".min");
-								BlockVector max = (BlockVector) EstateConfig.getEstateConfig("estates").get("Estate." + estateName + ".max");
-								
-								ProtectedCuboidRegion estateRegion = new ProtectedCuboidRegion(estateName, min, max);
-								
-								DefaultDomain estateOwner = new DefaultDomain();
-								estateOwner.removePlayer(args[2]);
-								
-								estateRegion.setOwners(estateOwner);
-								
-								try {
-									regionManager.save();
-								} catch (ProtectionDatabaseException e) {
-									// TODO Auto-generated catch block
-								}
-							}else{
-								sender.sendMessage("Usage: /estate removeowner estateName playerName");
-							}
-						}
+						sender.sendMessage("Usage: /estate removeowner estateName playerName");
+						return true;
 					}
 				}else{
-					sender.sendMessage("Usage: /estate removeowner estateName playerName");
+					sender.sendMessage("You don't have access to removeowner in plugin RealEstate!");
+					return true;
 				}
-			}else{
-				sender.sendMessage("You don't have access to removeowner in plugin RealEstate!");
 			}
-		}else{
-			sender.sendMessage("Usage: /estate removeowner estateName playerName");
+			
+			if(args[0].equalsIgnoreCase("warp")){
+				if (realEstate.perms.has(sender, "estate.warp")){
+					if (!(args[1].equalsIgnoreCase(""))){
+						double x = EstateConfig.getEstateConfig("estates").getDouble("Estate." + args[1] + ".x");
+						double y = EstateConfig.getEstateConfig("estates").getDouble("Estate." + args[1] + ".y");
+						double z = EstateConfig.getEstateConfig("estates").getDouble("Estate." + args[1] + ".z");
+						
+						World cWorld = player.getWorld();
+						
+						Location estateLoc = new Location(cWorld, x,y,z);
+						
+						player.teleport(estateLoc);
+					}else{
+						player.sendMessage("Usage: /es warp EstateName");
+					}
+				}
+			}
 		}
 		return false;
 	}
