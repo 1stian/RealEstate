@@ -2,7 +2,6 @@ package pro.homiecraft;
 
 import java.util.regex.Pattern;
 
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,7 +58,7 @@ public class SignListn implements Listener {
 											
 							String owner = event.getLine(1);
 							String price = event.getLine(2);
-							String name = event.getLine(3);
+							String name = event.getLine(3).toLowerCase();
 							
 							if (sel instanceof CuboidSelection) {								
 								BlockVector min = sel.getNativeMinimumPoint().toBlockVector();
@@ -98,7 +97,7 @@ public class SignListn implements Listener {
 								double y = event.getBlock().getY();
 								double z = event.getBlock().getZ();
 								
-								World cWorld = event.getBlock().getWorld();
+								String cWorld = event.getBlock().getWorld().getName();
 								
 								SaveEstate.estateSave(sMin, sMax, name, owner, pName, price, cWorld, x, y, z);
 								

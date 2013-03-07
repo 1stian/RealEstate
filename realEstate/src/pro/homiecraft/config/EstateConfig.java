@@ -26,10 +26,8 @@ public class EstateConfig {
             customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
            
             InputStream defConfigStream = realEstate.pluginST.getResource("/data/" + Estate + ".yml");
-            if (defConfigStream != null) {
                     YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
                     customConfig.setDefaults(defConfig);
-            }
     }
    
     public static FileConfiguration getEstateConfig(String Estate) {

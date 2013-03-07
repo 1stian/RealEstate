@@ -47,7 +47,6 @@ public class realEstate extends JavaPlugin {
 	
 	public void getCommands(){
 		this.getCommand("estate").setExecutor(new cEstate());
-		this.getCommand("es").setExecutor(new cEs());
 	}
 	
 	public void loadConfiguration() {
